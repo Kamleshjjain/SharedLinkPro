@@ -1,25 +1,20 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Set;
-import java.util.logging.Logger;
-
+import java.awt.datatransfer.StringSelection;
 
 public class OpenLinkInNewTabTest {
     private WebDriver driver;
@@ -89,8 +84,8 @@ public class OpenLinkInNewTabTest {
 
         //driver.quit();
 
-        //driver.get("https://book.bestpricecruises.com/swift/cruise?referrer=quickSearchForm&siid=45293&lang=1&cruiseline=8135&ship=13834&minduration=7&maxduration=17&startdate=07%2F09%2F2024&enddate=01%2F09%2F2025&sortcolumn=departureDate&sortorder=asc");
-        driver.get("https://uat.odysol.com/swift/cruise?siid=130386&lang=1&destinationtype=All&transportid=29&sortColumn=cruiselinePriority&sortOrder=asc");
+        driver.get("https://book.bestpricecruises.com/swift/cruise?referrer=quickSearchForm&siid=45293&lang=1&cruiseline=8135&ship=13834&minduration=7&maxduration=17&startdate=07%2F09%2F2024&enddate=01%2F09%2F2025&sortcolumn=departureDate&sortorder=asc");
+
         Thread.sleep(10000);
 
         driver.findElement(By.xpath("(//button[contains(@ng-reflect-tooltip,'Share')])[1]")).click();
@@ -108,17 +103,40 @@ public class OpenLinkInNewTabTest {
 
 
         openNewTabAndSwitch();
+        System.out.println("Value of ClipboardData2 before clearing its content " +clipboardData2);
         driver.get(clipboardData2);
         Thread.sleep(10000);
+        clearClipBoard(Toolkit.getDefaultToolkit().getSystemClipboard());
+
+        try {
+            clipboardData2 =  Toolkit.getDefaultToolkit().getSystemClipboard()
+                    .getData(DataFlavor.stringFlavor).toString();
+            //LoggerUtils.logInfo("clipbord URL : "+clipboardData1);
+        } catch (UnsupportedFlavorException | IOException ex) {
+            //actions.sleep(20);
+            clipboardData2 = Toolkit.getDefaultToolkit().getSystemClipboard()
+                    .getData(DataFlavor.stringFlavor).toString();
+        }
+
+        System.out.println("Value of ClipboardData2 after clearing its content " +clipboardData2);
+
+
 
         String actualUrl1 = driver.getCurrentUrl();
-        String expectedUrl1 = "https://uat.odysol.com/swift/cruise?siid=130386&lang=1&destinationtype=All&transportid=29&sortColumn=cruiselinePriority&sortOrder=asc";
+        String expectedUrl1 = "https://book.bestpricecruises.com/swift/cruise?referrer=quickSearchForm&siid=45293&lang=1&cruiseline=8135&ship=13834&minduration=7&maxduration=17&startdate=07%2F09%2F2024&enddate=01%2F09%2F2025&sortcolumn=departureDate&sortorder=asc";
         Assert.assertEquals(actualUrl1.toLowerCase(), expectedUrl1.toLowerCase(), "URLs do not match");
         Thread.sleep(5000);
 
         driver.quit();
 
     }
+
+    public void clearClipBoard(Clipboard systemClipboard) {
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        StringSelection stringSelection = new StringSelection("");
+        clipboard.setContents(stringSelection, null);
+    }
+
     public String openNewTab() {
         Set<String> oldWinHandles = driver.getWindowHandles();
         ((JavascriptExecutor) driver).executeScript("window.open('about:blank','_blank');");
