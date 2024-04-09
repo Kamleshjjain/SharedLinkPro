@@ -83,7 +83,10 @@ public class OpenLinkInNewTabTest {
         Thread.sleep(5000);
 
         //driver.quit();
-
+        System.out.println("Test1 Completed");
+        clearClipBoard(Toolkit.getDefaultToolkit().getSystemClipboard());
+        System.out.println("Value of Clipboard after clearing its value :"+Toolkit.getDefaultToolkit().getSystemClipboard()
+                .getData(DataFlavor.stringFlavor).toString());
         driver.get("https://book.bestpricecruises.com/swift/cruise?referrer=quickSearchForm&siid=45293&lang=1&cruiseline=8135&ship=13834&minduration=7&maxduration=17&startdate=07%2F09%2F2024&enddate=01%2F09%2F2025&sortcolumn=departureDate&sortorder=asc");
 
         Thread.sleep(10000);
