@@ -84,6 +84,8 @@ public class OpenLinkInNewTabTest {
 
         //driver.quit();
         System.out.println("Test1 Completed");
+        System.out.println("Value of Clipboard before clearing its content :"+Toolkit.getDefaultToolkit().getSystemClipboard()
+                .getData(DataFlavor.stringFlavor).toString());
         clearClipBoard(Toolkit.getDefaultToolkit().getSystemClipboard());
         System.out.println("Value of Clipboard after clearing its value :"+Toolkit.getDefaultToolkit().getSystemClipboard()
                 .getData(DataFlavor.stringFlavor).toString());
