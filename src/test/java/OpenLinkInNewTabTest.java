@@ -56,7 +56,7 @@ public class OpenLinkInNewTabTest {
         String clipboardData1=null;
         String clipboardData2=null;
         driver.get("https://book.bestpricecruises.com/swift-test/cruise?advancedsearch=true&siid=45293&lang=1&showtrace=true");
-        //Thread.sleep(10000);
+        Thread.sleep(10000);
 
          driver.findElement(By.xpath("(//button[contains(@ng-reflect-tooltip,'Share')])[1]")).click();
          //Thread.sleep(20);
@@ -74,7 +74,7 @@ public class OpenLinkInNewTabTest {
 
         openNewTabAndSwitch();
         driver.get(clipboardData1);
-        //Thread.sleep(10000);
+        Thread.sleep(10000);
 
         // Assert the content of the new tab
         String actualUrl = driver.getCurrentUrl();
@@ -91,7 +91,7 @@ public class OpenLinkInNewTabTest {
                 .getData(DataFlavor.stringFlavor).toString());
         driver.get("https://uat.odysol.com/swift/cruise?siid=130386&lang=1&destinationtype=All&transportid=29&sortColumn=cruiselinePriority&sortOrder=asc");
 
-        //Thread.sleep(10000);
+        Thread.sleep(10000);
 
         driver.findElement(By.xpath("(//button[contains(@ng-reflect-tooltip,'Share')])[1]")).click();
        //Thread.sleep(20);
